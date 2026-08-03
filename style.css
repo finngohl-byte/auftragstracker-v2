@@ -1,0 +1,78 @@
+body {
+    background-color: #FFFFF0;
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 480px;
+    margin:  0 auto;
+    padding: 16px;
+}
+
+h1 {
+    color: #8B1A1A;
+}
+
+h2 {
+    color: #8B1A1A;
+}
+
+
+input {
+    padding: 10px;
+    padding-right: 50px;
+    font-size: 20px;
+}
+
+#hinzufuegen {
+    padding:  15px;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    border-radius: 2mm;
+}
+
+#hinzufuegen:hover {
+    color: white;
+    background-color: #8B1A1A;
+}
+
+.erledigt {
+    background-color: green;
+    color: white;
+}
+
+.bearbeitung {
+    background-color: yellow;
+    color: black;
+}
+
+.change_btn{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    
+    
+}
+
+.change_btn button {
+    padding: 12px 16px;
+    margin-bottom: 10px;    
+    font-size: 16px;          
+    min-height: 44px;         
+    min-width: 44px; 
+
+}
+
+.liste {
+    display: flex;
+    flex-direction: column; 
+    gap: 16px;
+    margin-bottom: 12px;
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid #8B1A1A;
+}
+
+.aktiv {
+    background-color: #8B1A1A;
+    color: white;
+}

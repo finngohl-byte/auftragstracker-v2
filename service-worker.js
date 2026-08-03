@@ -1,5 +1,5 @@
 const DATEIEN = ["index.html", "style.css", "app.js"]
-const CACHE_NAME = "auftragstracker-v1"
+const CACHE_NAME = "auftragstracker-v2"
 
 self.addEventListener("install", function(event){
     event.waitUntil(

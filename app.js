@@ -77,7 +77,7 @@ function render_list(){
 
         bearbeitet.textContent = "IN BEARBEITUNG"
         bearbeitet.addEventListener("click", function(){
-            auftrag_aktualisieren(auftrag.firestoreId, {bearbeitet: true});
+            auftrag_aktualisieren(auftrag.firestoreId, {bearbeitet: true, erledigt: false});
         })    
         buttons.appendChild(bearbeitet)
 

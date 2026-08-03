@@ -3,9 +3,12 @@ const adress = document.getElementById("adress_input");
 const content = document.getElementById("info-input");
 const button = document.getElementById("hinzufuegen");
 const overview = document.getElementById("Uebersicht");
-
+const bestaetigung = document.getElementById("deleteModal")
+const confirmButton = document.getElementById("confirmDelete");
+const cancelButton = document.getElementById("cancelDelete");
 
 let filter = "alle"
+let loeschID = null;
 
 const all = document.createElement("button")
 all.textContent = "Alle"
@@ -30,6 +33,13 @@ const categories = document.createElement("div")
 categories.append(all, undone, done_)
 categories.classList.add("change_btn")
 overview.parentNode.insertBefore(categories, overview)
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +72,17 @@ function render_list(){
         anzuzeigen = window.auftraege.filter(function(a){return a.erledigt})
     } 
 
+
+
+    confirmButton.addEventListener("click", function(){
+            auftrag_loeschen(loeschID);
+            bestaetigung.style.display = "none"
+        })
+
+    cancelButton.addEventListener("click", function(){
+            bestaetigung.style.display = "none"  
+        })
+
     for (const auftrag of anzuzeigen){
         const li = document.createElement("li")
         const done = document.createElement("button")
@@ -88,10 +109,13 @@ function render_list(){
         buttons.appendChild(done)
 
         
-        remove.textContent =  "DELETE"
+        remove.textContent =  "DELETE"  
         remove.addEventListener("click", function(){
-            auftrag_loeschen(auftrag.firestoreId);
+            bestaetigung.style.display = "flex"
+
+            loeschID = auftrag.firestoreId
         })    
+
         buttons.appendChild(remove)   
    
         if (auftrag.erledigt){

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <title>Baumhauer</title>
+</head>
+<body>
+  <h1>Auftragstracker</h1>
+  <div id="Erstellung">
+        <p>Name:</p>
+        <input type="text" id="name-input"><br>
+        <p>Adresse:</p>
+        <input type="text" id="adress_input"><br>
+        <p>Art des Auftrags</p>
+        <input type="text" id="info-input"><br>
+        <button id="hinzufuegen">Erstellen</button>
+  </div>
+  <div id="Uebersicht">
+    <ul></ul>
+  </div>
+  <div id="deleteModal" class="modal">
+
+      <div class="modal-content">
+          <h2>Auftrag löschen</h2>
+          <p>Bist du sicher, dass du diesen Auftrag löschen möchtest?</p>
+
+          <div class="modal-buttons">
+              <button id="confirmDelete">Ja, löschen</button>
+              <button id="cancelDelete">Abbrechen</button>
+          </div>
+      </div>
+
+  </div>
+  <div id="Nachbearbeitung">
+    <div id="edit_content">
+        <h2>Auftrag verändern</h2>
+        <p>Name:</p>
+        <input type="text" id="name-change"><br>
+        <p>Adresse:</p>
+        <input type="text" id="adress_change"><br>
+        <p>Art des Auftrags</p>
+        <input type="text" id="info-change"><br>
+        <div class="edit_buttons">
+          <button id="edit">Bearbeiten</button>
+          <button id="return">Abbrechen</button>
+        </div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script type="module">
+
+  // Import the functions you need from the SDKs you need
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+  import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  deleteDoc, 
+  doc, 
+  updateDoc, 
+  onSnapshot 
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyDBqusw_P4DsRJm0QlTKvvIjE7Uwgz83Zk",
+
+    authDomain: "auftragstracker.firebaseapp.com",
+
+    projectId: "auftragstracker",
+
+    storageBucket: "auftragstracker.firebasestorage.app",
+
+    messagingSenderId: "242339741167",
+
+    appId: "1:242339741167:web:b3cd93fe2cfd2de92f0a1a"
+
+  };
+
+  // Initialize Firebase
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auftraegeRef = collection(db, "auftraege");   // "Zeiger" auf deine Sammlung
+
+window.auftraege = []
+// Ersetzt deine alte laden()-Funktion:
+onSnapshot(auftraegeRef, function(snapshot){
+  window.auftraege = [];
+  snapshot.forEach(function(docSnap){
+    const daten = docSnap.data();
+    daten.firestoreId = docSnap.id;   // die von Firestore vergebene ID merken, für Löschen/Ändern
+    window.auftraege.push(daten);
+  });
+  window.render_list();   // jedes Mal automatisch neu anzeigen, wenn sich was ändert
+});
+
+// Ersetzt dein altes auftrag_hinzufuegen():
+function auftrag_hinzufuegen(name, adress, inhalt){
+  addDoc(auftraegeRef, {
+    name: name,
+    adresse: adress,
+    content: inhalt,
+    erledigt: false,
+    bearbeitet: false
+  });
+}
+
+// Für DONE/IN BEARBEITUNG (Update eines bestehenden Dokuments):
+function auftrag_aktualisieren(firestoreId, aenderungen){
+  const docRef = doc(db, "auftraege", firestoreId);
+  updateDoc(docRef, aenderungen);
+}
+
+// Für DELETE:
+function auftrag_loeschen(firestoreId){
+  const docRef = doc(db, "auftraege", firestoreId);
+  deleteDoc(docRef);
+}
+
+window.auftrag_hinzufuegen = auftrag_hinzufuegen;
+window.auftrag_aktualisieren = auftrag_aktualisieren;
+window.auftrag_loeschen = auftrag_loeschen;
+</script>
+</body>
+</html>
